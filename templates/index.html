@@ -40,11 +40,6 @@
                         <i class="fas fa-camera me-2"></i>Screenshot Analysis
                     </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="training-tab" data-bs-toggle="tab" data-bs-target="#model-training" type="button" role="tab">
-                        <i class="fas fa-brain me-2"></i>Model Training
-                    </button>
-                </li>
             </ul>
 
             <!-- Tab Content -->
@@ -308,69 +303,6 @@
                     </div>
                 </div>
 
-                <!-- Model Training Tab -->
-                <div class="tab-pane fade" id="model-training" role="tabpanel">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">
-                                        <i class="fas fa-brain me-2"></i>Model Training & Management
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="text-muted mb-4">
-                                        Train or retrain the machine learning models used for phishing detection.
-                                    </p>
-                                    
-                                    <div class="row">
-                                        <div class="col-md-6 mb-3">
-                                            <div class="card h-100">
-                                                <div class="card-body text-center">
-                                                    <i class="fas fa-link fa-3x text-primary mb-3"></i>
-                                                    <h6>URL Model Training</h6>
-                                                    <p class="text-muted small">Train Random Forest model for URL feature analysis</p>
-                                                    <button class="btn btn-outline-primary" onclick="trainModel('url')">
-                                                        <i class="fas fa-play me-1"></i>Train URL Model
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 mb-3">
-                                            <div class="card h-100">
-                                                <div class="card-body text-center">
-                                                    <i class="fas fa-camera fa-3x text-info mb-3"></i>
-                                                    <h6>Screenshot Model Training</h6>
-                                                    <p class="text-muted small">Train CNN model for visual analysis</p>
-                                                    <button class="btn btn-outline-info" onclick="trainModel('screenshot')">
-                                                        <i class="fas fa-play me-1"></i>Train CNN Model
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="text-center mt-3">
-                                        <button class="btn btn-success btn-lg" onclick="trainModel('both')">
-                                            <i class="fas fa-cogs me-2"></i>Train Both Models
-                                        </button>
-                                    </div>
-                                    
-                                    <div id="trainingProgress" class="mt-4" style="display: none;">
-                                        <div class="alert alert-info">
-                                            <div class="d-flex align-items-center">
-                                                <div class="spinner-border spinner-border-sm me-3" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
-                                                </div>
-                                                <span id="trainingStatus">Training in progress...</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Results Section -->

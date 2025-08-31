@@ -223,36 +223,6 @@ def extract_features():
             'features': None
         }), 500
 
-@app.route('/train_models', methods=['POST'])
-def train_models():
-    """Endpoint to trigger model training"""
-    try:
-        model_type = request.json.get('model_type', 'both')
-        
-        if model_type in ['url', 'both']:
-            # Import and run URL model training
-            import train_url_model
-            train_url_model.main()
-        
-        if model_type in ['screenshot', 'both']:
-            # Import and run screenshot model training
-            import train_screenshot_model
-            train_screenshot_model.main()
-        
-        # Reload models
-        load_models()
-        
-        return jsonify({
-            'message': f'Successfully trained {model_type} model(s)',
-            'status': 'success'
-        })
-        
-    except Exception as e:
-        logging.error(f"Error training models: {str(e)}")
-        return jsonify({
-            'error': f'Training error: {str(e)}',
-            'status': 'failed'
-        }), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

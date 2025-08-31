@@ -345,51 +345,6 @@ function showAlert(message, type = 'info') {
     }, 5000);
 }
 
-async function trainModel(modelType) {
-    const trainingProgress = document.getElementById('trainingProgress');
-    const trainingStatus = document.getElementById('trainingStatus');
-    
-    // Show progress
-    trainingProgress.style.display = 'block';
-    trainingStatus.textContent = `Training ${modelType} model(s)...`;
-    
-    // Disable all training buttons
-    const trainingButtons = document.querySelectorAll('button[onclick^="trainModel"]');
-    trainingButtons.forEach(btn => btn.disabled = true);
-    
-    try {
-        const response = await fetch('/train_models', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ model_type: modelType })
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-            showAlert(`Training failed: ${data.error}`, 'danger');
-            trainingStatus.textContent = 'Training failed';
-        } else {
-            showAlert(data.message, 'success');
-            trainingStatus.textContent = 'Training completed successfully!';
-        }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showAlert('Failed to train model. Please try again.', 'danger');
-        trainingStatus.textContent = 'Training failed';
-    } finally {
-        // Re-enable buttons
-        trainingButtons.forEach(btn => btn.disabled = false);
-        
-        // Hide progress after delay
-        setTimeout(() => {
-            trainingProgress.style.display = 'none';
-        }, 3000);
-    }
-}
 
 // Utility functions
 function validateUrl(string) {

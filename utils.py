@@ -125,7 +125,7 @@ def extract_url_features(url):
         # Return default features if extraction fails
         return [0] * 31
 
-def preprocess_image(image_path, target_size=(224, 224)):
+def preprocess_image(image_path, target_size=(64, 64)):
     """
     Preprocess image for CNN model
     """

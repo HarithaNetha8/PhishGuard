@@ -11,7 +11,7 @@ import random
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-def generate_sample_images(n_samples=2000, image_size=(224, 224)):
+def generate_sample_images(n_samples=100, image_size=(64, 64)):
     """
     Generate sample images for demonstration
     Creates synthetic website-like images with different characteristics for phishing vs legitimate
@@ -145,39 +145,25 @@ def load_or_generate_images():
         logging.info("Generating sample images...")
         return generate_sample_images()
 
-def create_cnn_model(input_shape=(224, 224, 3)):
+def create_cnn_model(input_shape=(64, 64, 3)):
     """
     Create a CNN model for screenshot-based phishing detection
     """
     model = keras.Sequential([
         # First convolutional block
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=input_shape),
+        layers.Conv2D(16, (3, 3), activation='relu', input_shape=input_shape),
         layers.MaxPooling2D((2, 2)),
-        layers.BatchNormalization(),
         
         # Second convolutional block
-        layers.Conv2D(64, (3, 3), activation='relu'),
+        layers.Conv2D(32, (3, 3), activation='relu'),
         layers.MaxPooling2D((2, 2)),
-        layers.BatchNormalization(),
-        
-        # Third convolutional block
-        layers.Conv2D(128, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-        layers.BatchNormalization(),
-        
-        # Fourth convolutional block
-        layers.Conv2D(256, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-        layers.BatchNormalization(),
         
         # Global average pooling
         layers.GlobalAveragePooling2D(),
         
         # Dense layers
-        layers.Dense(512, activation='relu'),
+        layers.Dense(32, activation='relu'),
         layers.Dropout(0.5),
-        layers.Dense(256, activation='relu'),
-        layers.Dropout(0.3),
         layers.Dense(1, activation='sigmoid')
     ])
     
@@ -235,7 +221,7 @@ def train_cnn_model():
     history = model.fit(
         X_train, y_train,
         batch_size=32,
-        epochs=20,
+        epochs=5,
         validation_data=(X_test, y_test),
         callbacks=callbacks,
         verbose=1
