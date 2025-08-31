@@ -1,0 +1,244 @@
+/* Custom styles for PhishGuard application */
+
+:root {
+    --phish-danger: #dc3545;
+    --phish-safe: #198754;
+    --phish-warning: #ffc107;
+}
+
+body {
+    background-color: var(--bs-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header styling */
+.display-4 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.text-primary {
+    color: var(--bs-info) !important;
+}
+
+/* Card enhancements */
+.card {
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Form styling */
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-info);
+    box-shadow: 0 0 0 0.2rem rgba(13, 202, 240, 0.25);
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: var(--bs-info);
+    border-color: var(--bs-info);
+}
+
+.btn-primary:hover {
+    background-color: var(--bs-info);
+    border-color: var(--bs-info);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(13, 202, 240, 0.3);
+}
+
+/* Results styling */
+.result-safe {
+    background: linear-gradient(135deg, var(--phish-safe), #20c997);
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.result-phishing {
+    background: linear-gradient(135deg, var(--phish-danger), #fd7e14);
+    color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.result-warning {
+    background: linear-gradient(135deg, var(--phish-warning), #fd7e14);
+    color: var(--bs-dark);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.confidence-bar {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.confidence-fill {
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: width 0.5s ease-in-out;
+}
+
+/* Animation for loading */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Responsive image preview */
+#imagePreview img {
+    border: 2px solid var(--bs-border-color);
+    transition: transform 0.3s ease;
+}
+
+#imagePreview img:hover {
+    transform: scale(1.02);
+}
+
+/* Tab styling */
+.nav-tabs .nav-link {
+    color: var(--bs-secondary);
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--bs-info);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: rgba(13, 202, 240, 0.1);
+    border-radius: 8px 8px 0 0;
+}
+
+/* Feature input styling */
+.feature-input {
+    transition: all 0.2s ease;
+}
+
+.feature-input:focus {
+    transform: scale(1.02);
+}
+
+/* Progress bars for model training */
+.training-progress {
+    background: linear-gradient(45deg, var(--bs-info), var(--bs-primary));
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.training-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Utility classes */
+.text-gradient {
+    background: linear-gradient(45deg, var(--bs-info), var(--bs-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.icon-lg {
+    font-size: 2rem;
+}
+
+.border-gradient {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--bs-dark), var(--bs-dark)) padding-box,
+                linear-gradient(45deg, var(--bs-info), var(--bs-primary)) border-box;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bs-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bs-info);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-primary);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Error and success message styling */
+.alert-success {
+    background: linear-gradient(135deg, var(--phish-safe), #20c997);
+    border: none;
+    color: white;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, var(--phish-danger), #fd7e14);
+    border: none;
+    color: white;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, var(--phish-warning), #fd7e14);
+    border: none;
+    color: var(--bs-dark);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, var(--bs-info), var(--bs-primary));
+    border: none;
+    color: white;
+}

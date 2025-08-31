@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard - Phishing Detection System</title>
+    
+    <!-- Bootstrap CSS with Replit theme -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="text-center py-4 mb-4 border-bottom">
+            <div class="container">
+                <h1 class="display-4 fw-bold text-primary">
+                    <i class="fas fa-shield-alt me-3"></i>PhishGuard
+                </h1>
+                <p class="lead">Advanced Phishing Detection System</p>
+                <p class="text-muted">Protect yourself from malicious websites using AI-powered detection</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="container">
+            <ul class="nav nav-tabs mb-4" id="detectionTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-detection" type="button" role="tab">
+                        <i class="fas fa-link me-2"></i>URL Analysis
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="screenshot-tab" data-bs-toggle="tab" data-bs-target="#screenshot-detection" type="button" role="tab">
+                        <i class="fas fa-camera me-2"></i>Screenshot Analysis
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="training-tab" data-bs-toggle="tab" data-bs-target="#model-training" type="button" role="tab">
+                        <i class="fas fa-brain me-2"></i>Model Training
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="detectionTabsContent">
+                
+                <!-- URL Detection Tab -->
+                <div class="tab-pane fade show active" id="url-detection" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-link me-2"></i>URL-Based Phishing Detection
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-4">
+                                        Analyze URLs using machine learning features. You can either enter a URL to extract features automatically or manually input the 31 feature values.
+                                    </p>
+                                    
+                                    <!-- URL Input Section -->
+                                    <div class="mb-4">
+                                        <label for="urlInput" class="form-label">Enter URL for Feature Extraction:</label>
+                                        <div class="input-group">
+                                            <input type="url" class="form-control" id="urlInput" placeholder="https://example.com">
+                                            <button class="btn btn-outline-secondary" type="button" id="extractFeaturesBtn">
+                                                <i class="fas fa-extract me-1"></i>Extract Features
+                                            </button>
+                                        </div>
+                                        <div class="form-text">Enter a URL to automatically extract the 31 features for analysis</div>
+                                    </div>
+
+                                    <hr>
+
+                                    <!-- Manual Features Form -->
+                                    <form id="urlForm">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="mb-3">Basic URL Features</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">URL Length</label>
+                                                    <input type="number" class="form-control feature-input" name="length_url" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Hostname Length</label>
+                                                    <input type="number" class="form-control feature-input" name="length_hostname" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">IP Address (0/1)</label>
+                                                    <select class="form-select feature-input" name="ip">
+                                                        <option value="0">No</option>
+                                                        <option value="1">Yes</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of Dots</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_dots" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of Hyphens</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_hyphens" min="0" value="0">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-3">Character Analysis</h6>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of @ symbols</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_at" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of ?</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_qm" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of &</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_and" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of |</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_or" min="0" value="0">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Number of =</label>
+                                                    <input type="number" class="form-control feature-input" name="nb_eq" min="0" value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Additional Features (Collapsible) -->
+                                        <div class="accordion" id="additionalFeatures">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFeatures">
+                                                        Additional Features (Click to expand)
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseFeatures" class="accordion-collapse collapse">
+                                                    <div class="accordion-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Underscores</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_underscore" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Tildes</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_tilde" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Percent signs</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_percent" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Slashes</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_slash" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Stars</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_star" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Colons</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_colon" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Commas</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_comma" min="0" value="0">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Semicolons</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_semicolon" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Dollar signs</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_dollar" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Spaces</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_space" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">WWW count</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_www" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">COM count</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_com" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Double slashes</label>
+                                                                    <input type="number" class="form-control feature-input" name="nb_dslash" min="0" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">HTTP in path (0/1)</label>
+                                                                    <select class="form-select feature-input" name="http_in_path">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">HTTPS token (0/1)</label>
+                                                                    <select class="form-select feature-input" name="https_token">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Digit ratio in URL</label>
+                                                                    <input type="number" class="form-control feature-input" name="ratio_digits_url" min="0" max="1" step="0.01" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Digit ratio in host</label>
+                                                                    <input type="number" class="form-control feature-input" name="ratio_digits_host" min="0" max="1" step="0.01" value="0">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Punycode (0/1)</label>
+                                                                    <select class="form-select feature-input" name="punycode">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Non-standard port (0/1)</label>
+                                                                    <select class="form-select feature-input" name="port">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">TLD in path (0/1)</label>
+                                                                    <select class="form-select feature-input" name="tld_in_path">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">TLD in subdomain (0/1)</label>
+                                                                    <select class="form-select feature-input" name="tld_in_subdomain">
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-search me-2"></i>Analyze URL
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screenshot Detection Tab -->
+                <div class="tab-pane fade" id="screenshot-detection" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-camera me-2"></i>Screenshot-Based Phishing Detection
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-4">
+                                        Upload a screenshot of a website to analyze its visual characteristics for phishing indicators.
+                                    </p>
+                                    
+                                    <form id="screenshotForm" enctype="multipart/form-data">
+                                        <div class="mb-4">
+                                            <label for="screenshotFile" class="form-label">Select Screenshot:</label>
+                                            <input type="file" class="form-control" id="screenshotFile" accept="image/*" required>
+                                            <div class="form-text">Supported formats: PNG, JPG, JPEG, GIF, BMP, WebP (Max: 16MB)</div>
+                                        </div>
+                                        
+                                        <div id="imagePreview" class="text-center mb-4" style="display: none;">
+                                            <img id="previewImg" src="" alt="Preview" class="img-fluid rounded" style="max-height: 300px;">
+                                        </div>
+                                        
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-upload me-2"></i>Analyze Screenshot
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Training Tab -->
+                <div class="tab-pane fade" id="model-training" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-brain me-2"></i>Model Training & Management
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted mb-4">
+                                        Train or retrain the machine learning models used for phishing detection.
+                                    </p>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card h-100">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-link fa-3x text-primary mb-3"></i>
+                                                    <h6>URL Model Training</h6>
+                                                    <p class="text-muted small">Train Random Forest model for URL feature analysis</p>
+                                                    <button class="btn btn-outline-primary" onclick="trainModel('url')">
+                                                        <i class="fas fa-play me-1"></i>Train URL Model
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card h-100">
+                                                <div class="card-body text-center">
+                                                    <i class="fas fa-camera fa-3x text-info mb-3"></i>
+                                                    <h6>Screenshot Model Training</h6>
+                                                    <p class="text-muted small">Train CNN model for visual analysis</p>
+                                                    <button class="btn btn-outline-info" onclick="trainModel('screenshot')">
+                                                        <i class="fas fa-play me-1"></i>Train CNN Model
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-3">
+                                        <button class="btn btn-success btn-lg" onclick="trainModel('both')">
+                                            <i class="fas fa-cogs me-2"></i>Train Both Models
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="trainingProgress" class="mt-4" style="display: none;">
+                                        <div class="alert alert-info">
+                                            <div class="d-flex align-items-center">
+                                                <div class="spinner-border spinner-border-sm me-3" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                <span id="trainingStatus">Training in progress...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="mt-4" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card" id="resultsCard">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-chart-line me-2"></i>Analysis Results
+                                </h5>
+                            </div>
+                            <div class="card-body" id="resultsContent">
+                                <!-- Results will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="text-center mt-4" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">Analyzing...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
